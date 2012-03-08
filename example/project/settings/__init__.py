@@ -5,7 +5,7 @@ from os.path import dirname, abspath, normpath, basename, join
 from django.utils.importlib import import_module
 
 
-PROJECT_PATH = normpath(dirname(dirname(dirname(abspath(__file__)))))
+PROJECT_PATH = normpath(dirname(dirname(abspath(__file__))))
 PROJECT_NAME = basename(PROJECT_PATH)
 
 # write your own settings split type here. do not write same settings name
@@ -37,7 +37,7 @@ def update_settings(s):
     function will insert all variables and functions in ALL_CAPS into the
     global scope.
     """
-    settings = import_module('%s.settings.%s' % (PROJECT_NAME, s))
+    settings = import_module('project.settings.%s' % s)
     for k, v in settings.__dict__.items():
         if k.upper() == k:
             globals().update({k:v})

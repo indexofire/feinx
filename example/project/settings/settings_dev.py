@@ -70,3 +70,5 @@ STATICFILES_DIRS += (
 #ANONYMOUS_USER_ID = -1
 
 #AUTH_PROFILE_MODULE = 'profile.Profile'
+
+#WSGI_APPLICATION = 'project.wsgi.application'

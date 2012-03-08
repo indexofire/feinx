@@ -2,7 +2,7 @@
 # Django settings for feindex project.
 from django.utils.translation import ugettext_lazy as _
 from os.path import join
-from feindex.settings import create_secret_key, PROJECT_PATH, PROJECT_NAME
+from project.settings import create_secret_key, PROJECT_PATH, PROJECT_NAME
 
 
 # Debug
@@ -85,6 +85,7 @@ STATICFILES_FINDERS = (
 # Make sure you have the privilieges to write in the data directory
 SECRET_FILE = join(PROJECT_PATH, '../data', '.secret_key')
 SECRET_KEY = create_secret_key(SECRET_FILE)
+#SECRET_KEY = f65*(e39z!qalo0g!sm%*i33r=9jv(_-dwsqx7t_)%*+f&-(*r
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -136,8 +137,8 @@ INSTALLED_APPS = (
     'feincms.module.medialibrary',
     'mptt',
     'bootloader',
-    'feinx.contrib.profile',
-    'feinx.apps.forum',
+    'feinx',
+    #'feinx.apps.forum',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -181,9 +182,9 @@ FEINCMS_RICHTEXT_INIT_CONTEXT = {
 }
 
 # Profile backend to enable profile as default user model
-AUTHENTICATION_BACKENDS = (
-    'feinx.contrib.profile.auth_backends.ProfileModelBackend',
-)
+#AUTHENTICATION_BACKENDS = (
+#    'feinx.contrib.profile.auth_backends.ProfileModelBackend',
+#)
 
 # Custom user model. Default model is feinx's profile model.
-CUSTOM_USER_MODEL = 'feinx.contrib.profile.Profile'
+#CUSTOM_USER_MODEL = 'feinx.contrib.profile.Profile'
