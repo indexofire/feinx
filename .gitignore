@@ -1,0 +1,43 @@
+# Python compiled files
+*.py[co]
+
+# Packages
+*.egg
+*.egg-info
+
+# Tmp files
+.DS_Store
+*.swp
+*~
+
+# Ignore all directories/files created by virtualenv/pip
+bin
+build
+include
+lib
+src
+share
+.Python
+pip-log.txt
+
+# Ignore project local or generated files
+*.db
+uploads/
+settings/settings_dev.py
+.sass-cache/
+media/
+static/
+data/.secret_key
+.epio-app
+*.sublime-project
+
+# Ignore docs building files
+docs/_build
+docs/_static
+docs/_templates
+
+# Ignore django key file
+.django_key
+
+# Ignore settings files
+settings/settings_epio.py
