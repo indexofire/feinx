@@ -4,14 +4,13 @@ from django.conf import settings
 from django.db.models import get_model
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
-from .models import Profile
 
+#from feinx.contrib.profile.models import Profile
 
 try:
     user_model = get_model(*settings.CUSTOM_USER_MODEL.split('.', 2))
 except AttributeError:
     from django.contrib.auth.models import User as user_model
-
 
 class UserChangeForm(forms.ModelForm):
     password1 = forms.CharField(
@@ -51,8 +50,9 @@ class UserChangeForm(forms.ModelForm):
 
 class ProfileForm(UserChangeForm):
     """Form for user profile"""
+
     class Meta:
-        model = Profile
+        #model = Profile
         exclude = (
             'date_joined',
             'groups',
@@ -85,4 +85,22 @@ class ProfileForm(UserChangeForm):
 
         return email
 
+class ProfileAdminForm(forms.ModelForm):
+    """
+    Admin form for profile
+    """
+    def clean_email(self):
+        """
+        Prevent account hijacking by disallowing duplicate emails.
+        """
+        email = self.cleaned_data.get('email', None)
+
+        if email:
+            users = Profile.objects.filter(email__iexact=email)
+            if self.instance:
+                users = users.exclude(pk=self.instance.pk)
+            if users.count() > 0:
+                raise forms.ValidationError(_('That email address is already \
+                    in use.'))
+        return email
 

@@ -3,8 +3,8 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
-from contrib.profile.models import Profile, ProfileAdmin, ProfileAdminForm
-
+from feinx.contrib.profile.models import Profile, ProfileAdmin
+from feinx.contrib.profile.forms import ProfileAdminForm
 
 #class ProfileInline(admin.StackedInline):
 #    model = Profile

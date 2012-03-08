@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'mptt',
     'bootloader',
     'feinx',
+    'feinx.contrib.profile',
     #'feinx.apps.forum',
 )
 
