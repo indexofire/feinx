@@ -1,0 +1,91 @@
+{% extends "site_base.html" %}
+{% load i18n applicationcontent_tags %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}js/flexslider/flexslider.css" type="text/css"/>
+<script type="text/javascript" src="{{ STATIC_URL }}js/flexslider/jquery.flexslider.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(window).load(function() {
+    $('.flexslider').flexslider({
+        animation: "fade",
+        controlsContainer: ".flex-container"
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- flexslider start -->
+<!--
+<div class="container">
+<div class=".flex-container">
+  <div class="flexslider">
+    <ul class="slides">
+      <li><img src="{{ STATIC_URL }}img/slider_image_01.jpg" /></li>
+      <li><img src="{{ STATIC_URL }}img/slider_image_02.jpg" /></li>
+      <li><img src="{{ STATIC_URL }}img/slider_image_03.jpg" /></li>
+    </ul>
+  </div>
+</div>
+</div>
+-->
+<!-- flexslider end -->
+
+<!-- intro start -->
+<div class="container">
+<div class="row">
+  <div class="span4">
+    <div class="pad">
+      <img src="{{ STATIC_URL }}img/front_2.jpg" style="padding:5px; margin-bottom:10px;" alt="" width="288px" height="150px"/>
+      <h2 style="padding: 0px 10px;">We Communicate</h2>
+      <p style="padding: 0px 10px; line-height:16px;font-size:12px;color:#6C6C6C">大建设、大融合、大比武是近年来杭州市市医疗卫生工作的基本方略，“区县强，全市强”更是全市疾控战线的创新意识，只有“城乡一体化发展”才能带来全市疾控的崭新局面。进一步加强协作与交流能更快更好的完成应急检测任务，提高检测水平，丰富视野，提升实践经验。推广先进的检测、检验方法。</p>
+    </div>
+  </div>
+  <div class="span4">
+    <div class="pad">
+      <img src="{{ STATIC_URL }}img/front_3.jpg" style="padding:5px; margin-bottom:10px;" alt="" width="288px" height="150px"/>
+      <h2 style="padding: 0px 10px;">We Detect</h2>
+      <p style="padding: 0px 10px; line-height:16px;font-size:12px;color:#6C6C6C">参与和指导地方处理重大疫情、突发公共卫生事件，建立杭州重大疾病、中毒、卫生污染、救灾防病等重大公共卫生问题的应急反应能力 ，配合并参与各组织对重大突发公共卫生事件的调查处理，需要实验室能够做对突发公共卫生事件实验室的应急诊断技术的研究、开发与应用。</p>
+    </div>
+  </div>
+  <div class="span4">
+    <div class="pad">
+      <img src="{{ STATIC_URL }}img/front_4.jpg" style="padding:5px; margin-bottom:10px;" alt="" width="288px" height="150px"/>
+        <h2 style="padding: 0px 10px;">We Compute</h2>
+        <p style="padding: 0px 10px; line-height:16px;font-size:12px;color:#6C6C6C">了解大自然无声而优雅的生命语言，是现代分子生物学的追求。海量分子数据和其神秘的和微妙的模式导致计算机化的数据库和分析工具的要求。寻找新的方法来处理大量复杂的数据，并提供给研究人员更便捷的分析和计算工具，来推进我们对病原在疾病中的作用的认识。</p>
+    </div>
+  </div>
+</div>
+</div>
+<!-- intro end -->
+
+{% endblock %}
+
+
+{% block foot %}
+<div class="row">
+  <div class="span4">
+    <div style="margin-left:10px">
+      <h3>网站链接</h3>
+      <ul>
+        <li><a href="http://www.who.int/" target="_blank">世界卫生组织</a></li>
+        <li><a href="http://www.moh.gov.cn/" target="_blank">中国卫生部</a></li>
+        <li><a href="http://www.chinacdc.cn/" target="_blank">中国疾病预防控制中心</a></li>
+        <li><a href="http://wst.zj.gov.cn/" target="_blank">浙江省卫生厅</a></li>
+        <li><a href="http://www.cdc.zj.cn/" target="_blank">浙江省疾病预防控制中心</a></li>
+        <li><a href="http://www.hzws.gov.cn/" target="_blank">杭州市卫生信息网</a></li>
+        <li><a href="http://www.hzcdc.net/" target="_blank">杭州市疾病预防控制中心</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="span4">
+    <h3>资料更新</h3>
+
+  </div>
+  <div class="span4">
+    <h3>联系我们</h3>
+    <p>Tel: 0571-85063401</p>
+    <p>email: indexofire@gmail.com</p>
+  </div>
+</div>
+{% endblock %}

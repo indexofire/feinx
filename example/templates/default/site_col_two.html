@@ -1,0 +1,52 @@
+{% extends "site_base.html" %}
+{% load applicationcontent_tags feincms_tags feincms_page_tags mptt_tags %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+<!-- auth extension start -->
+  {% if feincms_page.auth and request.user.is_anonymous %}
+  <script type="text/javascript">self.location="{% app_reverse 'account-signin' 'account.urls' %}";</script>
+  {% else %}
+  <!-- menu start -->
+  <div class="span3">
+  <h3>
+    {% block menu_title %}实验室{% endblock menu_title %}
+  </h3>
+  {% feincms_navigation of feincms_page as nodes level=2,depth=2 %}
+  {% if nodes %}
+  <ul id="menu">
+    {% recursetree nodes %}
+    {% if not node.is_leaf_node %}
+    <li class="list-item{% if node|is_equal_or_parent_of:feincms_page %} active{% endif %}">
+      <a href="{{ node.get_absolute_url }}" class="exp inactive"><span>{{ node.title }}</span></a>
+      <ul class="sub">{{ children }}</ul>
+    </li>
+    {% else %}
+    <li class="list-item{% if node|is_equal_or_parent_of:feincms_page %} active{% endif %}"><a href="{{ node.get_absolute_url }}"><span>{{ node.title }}</span></a>
+    {% endif %}
+    {% endrecursetree %}
+  </ul>
+  {% else %}
+  <span>No subpages</span>
+  {% endif %}
+  {% for content in feincms_page.content.left %}
+    <div class="block">{% feincms_render_content content request %}</div>
+  {% endfor %}
+  </div>
+  <!-- menu end -->
+
+  <!-- main start -->
+  <div class="span9">
+    <div class="pad" style="padding: 10px">
+    {% for content in feincms_page.content.main %}
+      <div class="block">{% feincms_render_content content request %}</div>
+    {% endfor %}
+    </div>
+  </div>
+  <!-- main end -->
+  {% endif %}
+<!-- auth extension end -->
+</div>
+</div>
+{% endblock content %}

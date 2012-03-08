@@ -1,0 +1,136 @@
+{% block doctype %}<!DOCTYPE html>{% endblock doctype %}
+{% load i18n applicationcontent_tags feincms_tags feincms_page_tags %}
+<!--[if lt IE 9]><html class="ie"><![endif]-->
+<!--[if gte IE 9]><!--><html lang="{{ LANGUAGE_CODE }}"><!--<![endif]-->
+<head>
+{% block meta %}
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% endblock meta %}
+  <title>{% block title %}{{ feincms_page.title }}{% endblock title %}</title>
+  <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico"/>
+  <link href="http://fonts.googleapis.com/css?family=Lemon" rel="stylesheet" type="text/css"/>
+  <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script type="text/javascript" src="{% if debug %}{{ STATIC_URL }}libs/jquery/jquery-1.7.1.min.js{% else %}https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js{% endif %}"></script>
+{% block extra_head %}{% endblock extra_head %}
+{{ feincms_page.content.media }}
+{{ feincms_page.object.media }}
+</head>
+
+<body>
+
+<!-- header start -->
+<header class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="i-bar"></span>
+          <span class="i-bar"></span>
+          <span class="i-bar"></span>
+        </a>
+        <a class="brand" id="hzcdc" href="/">HZCDC<span class="special"> * </span>Labs</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+          {% feincms_navigation of feincms_page as toplevel level=1 %}
+          {% for p in toplevel %}
+            <li{% if p|is_equal_or_parent_of:feincms_page %} class="active"{% endif %}>
+              <a href="{{ p.get_absolute_url }}">{{ p.title }}</a>
+            </li>
+          {% endfor %}
+          </ul>
+          <p class="navbar-text pull-right">Logged in as <a href="#menu1" class="dropdown-toggle" data-toggle="dropdown">{% trans 'username' %}<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- header end -->
+
+<div class="container" style="margin-top: 60px">
+  <div class="pad">{% feincms_breadcrumbs feincms_page %}</div>
+</div>
+
+  <!-- content start -->
+  <div class="main">
+    <div class="content">{% block content %}{% endblock content %}</div>
+  </div>
+  <!-- content end -->
+
+  <!-- foot start -->
+  <footer id="foot">
+    <div class="footer">
+      <div class="container">{% block foot %}{% endblock %}</div>
+      <div class="bottom">
+        <div class="copyright">
+          <div class="two-even">
+            <p>© Copyright 2011.  <a href="mailto:indexofire@hotmail.com">Mark Renron</a> from <a href="http://www.hzcdc.net/" target="_self">HZCDC</a>. All Rights Reserved!</p>
+            <p>Site built on <a href="http://www.feinheit.ch">Feincms</a> based on <a href="http://www.djangoproject.com">Django</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- foot end -->
+
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-dropdown.js"></script>
+<!--
+<script src="{{ STATIC_URL }}libs/cufon/cufon-yui.min.js"></script>
+<script src="{{ THEME_URL }}js/cufon-font/cufon-font.js"></script>
+<script>Cufon.replace("#hzcdc");</script>
+-->
+
+<style>
+#hzcdc {
+    font-family: 'Lemon', cursive;
+}
+.special {
+    color: #D43;
+}
+</style>
+
+{% if debug %}
+<!-- load less -->
+<link rel="stylesheet/less" href="{{ STATIC_URL }}less/index.less"/>
+<script src="{{ STATIC_URL }}libs/less/less-1.2.1.min.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-transition.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-alert.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-modal.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-scrollspy.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-tab.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-popover.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-button.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-collapse.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-carousel.js"></script>
+<script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-typeahead.js"></script>
+{% else %}
+<link rel="stylesheet/css" href="{{ STATIC_URL }}css/style.css"/>
+{% endif %}
+
+</body>
+
+<script type="text/javascript">
+$('.dropdown-toggle').dropdown();
+</script>
+{% if GOOGLE_ANALYTICS %}
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', '{{ GOOGLE_ANALYTICS }}']);
+_gaq.push(['_trackPageview']);
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+{% endif %}
+</html>

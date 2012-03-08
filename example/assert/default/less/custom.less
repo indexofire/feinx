@@ -1,0 +1,113 @@
+// VARIABLE
+// --------
+@img-url: "../img";
+
+// RESET
+// -----
+body {
+  background-image: url('@{img-url}/bg.png') !important;
+}
+.main {
+  min-height: 800px;
+}
+a {
+  color: #444;
+}
+// HEAD
+// ----
+.navbar {
+  .brand:hover {
+    background-color: #333;
+  }
+  // Website or project name
+  .brand {
+    padding: 10px 20px;
+  }
+}
+
+
+.pad {
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(100,100,100,0.1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(100,100,100,0.1);
+  box-shadow: 0px 0px 5px 1px rgba(100,100,100,0.1);
+  border: 1px solid #E3E3E3;
+  margin: 0 0 @baseLineHeight;
+}
+
+#forum-app {
+  ul {
+    list-style: none;
+  }
+}
+
+// BREADCRUMB
+// ----------
+.breadcrumbs {
+  padding: 7px 14px;
+  margin: 0;
+  li {
+    display: inline-block;
+    text-shadow: 0 1px 0 @white;
+  }
+  .divider {
+    padding: 0 5px;
+    color: @grayLight;
+  }
+  .active a {
+    color: @grayDark;
+  }
+}
+
+
+
+
+
+// FOOT
+// ----
+
+
+#foot {
+  //background: #FFF url('@{img-url}/bg-footer-border.png') repeat-x left top;
+  margin-top: 20px;
+  border-top: 14px solid #BDBDBD;
+  .footer {
+    width: 100%;
+    float: left;
+    padding-top: 35px;
+    background: url('@{img-url}/bg-footer.gif') repeat;
+    h3, a, p {
+      color: #AEAEAE;
+    }
+    .bottom {
+      padding-top: 30px;
+      padding-bottom: 20px;
+      margin-top: 35px;
+      background: url('@{img-url}/bg-footer-bottom.png') repeat-x left top;
+      text-align: center;
+      .copyright {
+        font-size: 14px;
+        color: #CCC;
+        line-height: 30px;
+        margin-bottom: 12px;
+        font-weight: normal;
+        p > a, p > a:hover {
+          color: #EEE;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.footer ul {
+  margin: 0px;
+  list-style-type: none;
+  padding: 0px;
+  float: left;
+}
+.footer ul li {
+  display: block;
+  margin-bottom: 10px;
+  list-style: none;
+}
