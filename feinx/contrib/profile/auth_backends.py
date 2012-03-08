@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
+from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
-from django.db.models import get_model
+from django.core.urlresolvers import get_callable
+#from django.db.models import get_model
 
 class ProfileModelBackend(ModelBackend):
     """
-    Profile model backend
+    Profile model backe nd
 
     Usage:
         Put these lines in your settings.py file
@@ -14,7 +16,7 @@ class ProfileModelBackend(ModelBackend):
         AUTHENTICATION_BACKENDS = (
             'feinx.contrib.profile.auth_backends.ProfileModelBackend',
         )
-        CUSTOM_USER_MODEL = 'feinx.contrib.profile.Profile'
+        CUSTOM_USER_MODEL = 'feinx.contrib.profile.models.Profile'
     """
 
     def authenticate(self, username=None, password=None):
@@ -34,7 +36,7 @@ class ProfileModelBackend(ModelBackend):
     @property
     def user_class(self):
         if not hasattr(self, '_user_class'):
-            self._user_class = get_model(*settings.CUSTOM_USER_MODEL.split('.', 2))
-            if not self._user_class:
-                raise ImproperlyConfigured('Could not get custom user model')
+            self._user_class = get_callable(settings.CUSTOM_USER_MODEL, False)
+            if self._user_class is False:
+                raise ImproperlyConfigured(_('Could not get custom user model'))
         return self._user_class
