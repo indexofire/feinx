@@ -19,17 +19,34 @@ if getattr(settings, 'AUTH_PROFILE_MODULE', False) and settings.AUTH_PROFILE_MOD
         return self.profile
     User.get_profile = get_profile
 
-
-from feincms.admin.item_editor import ItemEditor
-
 class ProfileAdmin(UserAdmin):
     """
-    Admin for profile
+    Profile admin class inherit from UserAdmin.
+
+    UserAdmin.get_fieldsets(self, request, obj=None)
+    UserAdmin.get_form(self, request, obj=None, **kwargs)
+    UserAdmin.get_urls(self)
+    UserAdmin.add_view(self, request, form_url='', extra_context=None)
+    UserAdmin.user_change_password(self, request, id, form_url='')
+    UserAdmin.response_add(self, request, obj, post_url_continue='../%s/')
+
+    UserAdmin.fields:
+        form
+        add_form_template
+        change_user_password_template
+        fieldsets
+        add_fieldsets
+        add_form
+        change_password_form
+        list_display
+        list_filter
+        search_fields
+        ordering
+        filter_horizontal
     """
 
-    # define profile form for admin
     form = ProfileAdminForm
-    add_form_template = None
+    #add_form_template = None
     fieldsets = [
         (_('Main options'), {
             'fields': ['username', 'password', 'email',],
@@ -38,7 +55,6 @@ class ProfileAdmin(UserAdmin):
             'classes': ['wide',],
             'fields': ['is_active', 'last_login', 'date_joined',],
         }),
-        #FEINCMS_CONTENT_FIELDSET,
     ]
     list_display = ['username', 'email', 'date_joined',]
     list_display_links = ['username', 'email',]
