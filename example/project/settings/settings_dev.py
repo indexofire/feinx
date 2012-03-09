@@ -40,7 +40,7 @@ THEME = 'default'
 
 # Add static directory
 STATICFILES_DIRS += (
-    join(PROJECT_PATH, 'assets/%s' % THEME),
+    join(PROJECT_PATH, '../assets/%s' % THEME),
 )
 
 #

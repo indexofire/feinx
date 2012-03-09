@@ -4,7 +4,7 @@ from django.core.urlresolvers import get_callable
 
 class ExtensionMixin(object):
     """
-    Mixin for extensions
+    Mixin for model extensions.
     """
 
     @classmethod

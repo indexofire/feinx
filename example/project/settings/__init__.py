@@ -6,7 +6,9 @@ from django.utils.importlib import import_module
 
 
 PROJECT_PATH = normpath(dirname(dirname(abspath(__file__))))
+PROJECT_DIRS = dirname(PROJECT_PATH)
 PROJECT_NAME = basename(PROJECT_PATH)
+
 
 # write your own settings split type here. do not write same settings name
 # here in different setting type.
