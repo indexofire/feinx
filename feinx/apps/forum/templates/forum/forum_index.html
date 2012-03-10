@@ -1,0 +1,14 @@
+{% extends "forum/forum_base.html" %}
+{% load i18n forum_tags %}
+
+{% block breadcrumb %}{{ block.super }}<li><span>{% trans "Forum Index" %}</span></li>{% endblock breadcrumb %}
+
+{% block forum_main %}
+<div class="pad">
+  {% include "forum/includes/topic_list.html" %}
+</div>
+{% endblock forum_main %}
+
+{% block forum_tool %}
+<h3>{% trans "Latest Topic" %}</h3>
+{% endblock forum_tool %}

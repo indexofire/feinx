@@ -1,0 +1,32 @@
+{% load i18n applicationcontent_tags feincms_page_tags %}
+
+{% fragment request "title" %}
+  {% block title %}{{ FORUM_TITLE }}{{ FORUM_SUB_TITLE }}{% endblock %}
+{% endfragment %}
+
+{% fragment request "extra_head" %}
+  {% block extra_head %}
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}forum/css/forum.css" />
+  {% endblock %}
+{% endfragment %}
+
+<div id="forum-app">
+  <div class="row" id="forum-header">
+    <div class="span3">
+      {% block forum_title %}
+      <h3 style="display:block; float:none">{% trans "Forum" %}</h3>
+      {% endblock forum_title %}
+      {% block forum_list %}
+      <ul>
+      {% for fm in forums %}
+        <li class="list-item{% if fm == forum %} active-item{% endif %}"><a href="{% app_reverse 'forum-forum' 'forum.urls' fm.slug %}" title="{{ fm.description }}">{{ fm.name }}</a></li>
+      {% endfor %}
+      </ul>
+    {% endblock forum_list %}
+    </div>
+    <div class="span9">
+      <div>{% block forum_tool %}{% endblock forum_tool %}</div>
+      {% block forum_main %}{% endblock forum_main %}
+    </div>
+  </div>
+</div>

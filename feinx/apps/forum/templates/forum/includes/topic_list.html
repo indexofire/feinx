@@ -1,0 +1,22 @@
+{% load i18n forum_tags applicationcontent_tags %}
+<ul class="topic-list">
+  <li class="topic-bar">
+    <span class="avatar">{% trans "avatar" %}</span>
+    <span class="topic-title">{% trans "topic" %}</span>
+    <span class="count-title">{% trans "reply" %}</span>
+    <span class="count-title">{% trans "view" %}</span>
+  </li>
+  {% for topic in topics %}
+  <li class="topic">
+    <div class="avatar">
+      <a href="{% app_reverse 'account-profile-detail' 'account.urls' topic.posted_by__user__username %}"><img src="{% if topic.posted_by__avatar %}{{ MEDIA_URL}}{{ topic.posted_by__avatar }}{% else %}{{ MEDIA_URL }}avatar/default.png{% endif %}" height="{{ AVATAR_HEIGHT }}" width="{{ AVATAR_WIDTH }}"></a>
+    </div>
+    <p><a href="{% app_reverse 'forum-topic' 'forum.urls' topic.id %}">{{ topic.subject }}</a></p>
+    <div class="fade-in">By <a href="{% app_reverse 'account-profile-detail' 'account.urls' topic.posted_by__user__username %}" class="dark">{{ topic.posted_by__name }}</a> in <a href="{% app_reverse 'forum-forum' 'forum.urls' topic.forum__slug %}">{{ topic.forum__name }}</a> <span class="created">{{ topic.created_on|lbtimesince }}</span></div>
+    <div class="topic-info">
+      <div class="replies">{{ topic.num_replies }}</div>
+      <div class="views">{{ topic.num_views }}</div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

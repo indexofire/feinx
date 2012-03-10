@@ -1,0 +1,15 @@
+{% load i18n forum_tags applicationcontent_tags %}
+<li class="topic">
+  <div class="avatar">
+    <a href="{% app_reverse 'account-profile-detail' 'account.urls' thread.posted_by %}"><img src="{{ MEDIA_URL}}{{ thread.posted_by.avatar }}" height="{{ AVATAR_HEIGHT }}" width="{{ AVATAR_WIDTH }}"></a>
+  </div>
+  <p>{{ thread.message|safe }}</p>
+  <div class="fade">By <a href="{% app_reverse 'account-profile-detail' 'account.urls' thread.posted_by %}" class="dark">{{ thread.posted_by }}</a> in <a href="{% url forum_forum topic.forum.slug %}">{{ forum }}</a> <span class="created">{{ reply.created_on|lbtimesince }}</span>
+  {% if request.user.is_authenticated %}
+  <span class="quote-post" style="float:right; padding-left:5px"><a href="{% url forum-new-replay topic.pk %}?qid={{ reply.pk }}">{% trans "quote" %}</a></span>
+  {% if request.user == reply.posted_by or user.is_staff %}
+  <span class="edit-post" style="float:right; padding-left:5px"><a href="{% url forum-post-edit reply.pk %}">{% trans "edit" %}</a></span>
+  {% endif %}
+  </div>
+  {% endif %}
+</li>
