@@ -1,5 +1,5 @@
 {% extends "forum/forum_base.html" %}
-{% load i18n forum_tags pagination_tags applicationcontent_tags %}
+{% load i18n forum_tags applicationcontent_tags %}
 
 {% block title %}{{ block.super }}{% endblock %}
 
@@ -8,23 +8,19 @@
 {% block forum_main %}
 <div class="pad">
   {% include 'forum/includes/topic_list.html' %}
-  <div>
-  {% autopaginate topics FORUM_PAGE_SIZE %}
-  {% paginate %}
-  </div>
 </div>
 {% endblock forum_main %}
 
 {% block forum_tool %}
 <h3>
-  <span><a title="Permanent link to this forum." rel="bookmark" href="{% app_reverse 'forum-forum' 'forum.urls' forum.slug %}" class="permalink">{{ forum.name }}</a></span>
+  <span><a title="Permanent link to this forum." rel="bookmark" href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' forum_slug %}" class="permalink">{{ forum.name }}</a></span>
 </h3>
 
 <div class="red-button post-tool">
   {% if user.is_authenticated %}
-    <a class="newpost" href="{% app_reverse 'forum-new-topic' 'forum.urls' forum.pk %}">{% trans "Post new topic" %}</a>
+    <a class="newpost" href="{% app_reverse 'forum-post-topic' 'feinx.apps.forum.urls' forum_id %}">{% trans "Post new topic" %}</a>
   {% else %}
-  {% trans "You must" %} <a href="{% app_reverse 'account-signin' 'account.urls' %}">{% trans "Login" %}</a> {% trans "or" %} <a href="{% app_reverse 'account-signup' 'account.urls' %}">{% trans "register" %}</a> {% trans "to post a topic" %}
+  {% trans "You must" %} <a href="{% app_reverse 'account-signin' 'feinx.contrib.account.urls' %}">{% trans "Login" %}</a> {% trans "or" %} <a href="{% app_reverse 'account-signup' 'feinx.contrib.account.urls' %}">{% trans "register" %}</a> {% trans "to post a topic" %}
   {% endif %}
 </div>
 {% endblock forum_tool %}

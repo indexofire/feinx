@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.admin import UserAdmin, csrf_protect_m
 from django.utils.translation import ugettext_lazy as _
 
-from feinx.contrib.profile.forms import ProfileAdminForm
+from feinx.contrib.account.forms import ProfileAdminForm
 from feinx.utils.mixins import ExtensionMixin
 
 # No effect?

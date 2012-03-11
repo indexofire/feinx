@@ -9,10 +9,12 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum
+
 from feincms.content.application.models import app_reverse
-from apps.forum.settings import *
-from apps.forum.managers import TopicManager
-from contrib.profile.models import Profile
+
+from feinx.apps.forum.settings import *
+from feinx.apps.forum.managers import TopicManager
+from feinx.contrib.account.models import Profile
 
 __all__ = [
     'Config',

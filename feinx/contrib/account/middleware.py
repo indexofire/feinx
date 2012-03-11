@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from feinx.contrib.profile.models import Profile
+from feinx.contrib.account.models import Profile
 
 class ProfileAuthenticationMiddleware(object):
     """

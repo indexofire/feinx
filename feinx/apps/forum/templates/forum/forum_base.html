@@ -10,17 +10,15 @@
   {% endblock %}
 {% endfragment %}
 
-<div id="forum-app">
+<div id="forum">
   <div class="row" id="forum-header">
     <div class="span3">
-      {% block forum_title %}
-      <h3 style="display:block; float:none">{% trans "Forum" %}</h3>
-      {% endblock forum_title %}
+      {% block forum_title %}<h3 style="display:block; float:none">{% trans "Forum" %}</h3>{% endblock forum_title %}
       {% block forum_list %}
       <ul>
-      {% for fm in forums %}
-        <li class="list-item{% if fm == forum %} active-item{% endif %}"><a href="{% app_reverse 'forum-forum' 'forum.urls' fm.slug %}" title="{{ fm.description }}">{{ fm.name }}</a></li>
-      {% endfor %}
+        {% for fm in forums %}
+        <li class="list-item{% if fm == forum %} active-item{% endif %}"><a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' fm.slug %}" title="{{ fm.description }}">{{ fm.name }}</a></li>
+        {% endfor %}
       </ul>
     {% endblock forum_list %}
     </div>

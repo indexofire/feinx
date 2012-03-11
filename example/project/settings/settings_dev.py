@@ -40,7 +40,7 @@ THEME = 'default'
 
 # Add static directory
 STATICFILES_DIRS += (
-    join(PROJECT_PATH, '../assets/%s' % THEME),
+    join(PROJECT_DIRS, 'asserts/%s' % THEME),
 )
 
 #
@@ -57,7 +57,7 @@ STATICFILES_DIRS += (
     #'contrib.profile.modules.address.extensions.address',
 #)
 
-#import sys
+
 #sys.path.append('apps')
 #sys.path.append('contrib')
 

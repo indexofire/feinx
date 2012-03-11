@@ -8,9 +8,9 @@ from django.views.generic import TemplateView, UpdateView
 #from profiles.models import Profile
 #from profiles.utils import class_view_decorator
 from feincms.content.application.models import app_reverse
-from .models import Profile
-from .utils import class_view_decorator
-from .forms import ProfileForm
+from feinx.contrib.account.models import Profile
+from feinx.contrib.account.utils import class_view_decorator
+from feinx.contrib.account.forms import ProfileForm
 
 
 #try:
@@ -21,13 +21,12 @@ from .forms import ProfileForm
 
 @class_view_decorator(login_required)
 class ProfileView(TemplateView):
-    template_name = 'profiles/profile.html'
-
+    template_name = 'account/profile_index.html'
 
 @class_view_decorator(login_required)
 class ProfileEdit(UpdateView):
     form_class = ProfileForm
-    template_name = 'profiles/profile_form.html'
+    template_name = 'account/profile_form.html'
 
     def form_valid(self, form):
         instance = super(ProfileEdit, self).form_valid(form)

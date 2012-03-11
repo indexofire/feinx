@@ -2,7 +2,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 from feincms.module.page.models import Page
-#from feincms.content.application.models import ApplicationContent
+from feincms.content.application.models import ApplicationContent
 from feincms.content.richtext.models import RichTextContent
 #from feincms.content.image.models import ImageContent
 #from feincms.content.comments.models import CommentsContent
@@ -114,18 +114,17 @@ Page.create_content_type(RichTextContent)
 # Add table content type
 #Page.create_content_type(TableContent)
 
-# Add forum application
-
-#Page.create_content_type(
-#    ApplicationContent,
-#    APPLICATIONS=(
-#        ('forum.urls', _('Forum Application')),
-#        ('account.urls', _('Account Application')),
+# Add applications in pages
+Page.create_content_type(
+    ApplicationContent,
+    APPLICATIONS=(
+        ('feinx.apps.forum.urls', _('Forum Application')),
+        ('feinx.contrib.account.urls', _('Account Application')),
         #('news.urls', _('News Application')),
         #('article.urls', _('Library Application')),
         #('document.urls', _('Document Application')),
-#    )
-#)
+    )
+)
 
 # Add form content type
 #Page.create_content_type(FormContent)

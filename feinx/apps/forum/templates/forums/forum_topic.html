@@ -1,17 +1,17 @@
 {% extends 'forum/forum_base.html' %}
-{% load i18n forum_tags  applicationcontent_tags %}
+{% load i18n forum_tags pagination_tags applicationcontent_tags %}
 
 {% block title %} - {{ topic.subject }}{% endblock %}
 
 {% block breadcrumb %}{{ block.super }}{% include "forum/includes/topic_brd_crumbs.html" %}{% endblock breadcrumb %}
 
 {% block forum_main %}
-
+{% autopaginate replies TOPIC_PAGE_SIZE %}
 <div class="pad">
 {% include 'forum/includes/topic_detail.html' %}
 {% if not topic.closed and user.is_authenticated %}
-<img style="float: left; padding: 10px;" src="" height="{{ AVATAR_HEIGHT }}" width="{{ AVATAR_WIDTH }}">
-<form action="{% app_reverse 'forum-post-replay' 'feinx.apps.forum.urls' topic.pk %}" accept-charset="utf-8" method="post">{% csrf_token %}
+<img style="float: left; padding: 10px;" src="{{ user.get_profile.get_avatar_url }}" height="{{ AVATAR_HEIGHT }}" width="{{ AVATAR_WIDTH }}">
+<form action="{% app_reverse 'forum-new-replay' 'forum.urls' topic.pk %}" accept-charset="utf-8" method="post">{% csrf_token %}
   <fieldset>
     <textarea name="message" id="quick-reply" class="span7"></textarea>
   </fieldset>
@@ -28,7 +28,8 @@
 {% endfor %}
 </ul>
 
-
+<div style="margin: 0px 10px">{% paginate %}</div>
+</div>
 {% endblock forum_main %}
 
 {% block forum_tool %}
@@ -41,15 +42,15 @@
   {% if topic.sticky %}
   <strong>[{% trans "Topic Sticky" %}]</strong>
   {% endif %}
-  <a href="{% app_reverse 'forum-topic' 'feinx.apps.forum.urls' topic.id %}">{{ topic.subject }}</a>
+  <a href="{% app_reverse 'forum-topic' 'forum.urls' topic.id %}">{{ topic.subject }}</a>
 </h3>
 
 <div class="red-button post-tool">
 {% if user.is_authenticated %}
-  <a href="{% app_reverse 'forum-post-topic' 'feinx.apps.forum.urls' topic.forum.pk %}">{% trans "Post new topic" %}</a>
-  <a href="{% app_reverse 'forum-post-replay' 'feinx.apps.forum.urls' topic.pk %}">{% trans "Post a reply" %}</a>
+  <a href="{% app_reverse 'forum-new-topic' 'forum.urls' topic.forum.pk %}">{% trans "Post new topic" %}</a>
+  <a href="{% app_reverse 'forum-new-replay' 'forum.urls' topic.pk %}">{% trans "Post a reply" %}</a>
 {% else %}
-  {% trans "You must" %} <a href="{% app_reverse 'account-signin' 'feinx.contrib.account.urls' %}">{% trans "Login" %}</a> {% trans "or" %} <a href="{% app_reverse 'account-signup' 'feinx.contrib.account.urls' %}">{% trans "register" %}</a> {% trans "to post a topic" %}
+  {% trans "You must" %} <a href="{% app_reverse 'account-signin' 'account.urls' %}">{% trans "Login" %}</a> {% trans "or" %} <a href="{% app_reverse 'account-signup' 'account.urls' %}">{% trans "register" %}</a> {% trans "to post a topic" %}
 {% endif %}
 </div>
 {% endblock forum_tool %}

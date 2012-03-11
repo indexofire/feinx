@@ -5,6 +5,10 @@ from os.path import join
 from project.settings import create_secret_key, PROJECT_PATH, PROJECT_NAME, \
     PROJECT_DIRS
 
+#import sys
+#sys.path.append('/home/mark/Repos/feinx/feinx/apps/')
+#sys.path.append('/home/mark/Repos/feinx/feinx/contrib/')
+
 # Debug
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -66,7 +70,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    join(PROJECT_DIRS, 'assets'),
+    join(PROJECT_DIRS, 'asserts'),
 )
 
 # Set default theme, and change it in your own settings
@@ -82,8 +86,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # Make sure you have the privilieges to write in the data directory
-SECRET_FILE = join(PROJECT_PATH, '../data', '.secret_key')
-SECRET_KEY = create_secret_key(SECRET_FILE)
+SECRET_KEY = create_secret_key(join(PROJECT_PATH, '../data', '.secret_key'))
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -136,8 +139,9 @@ INSTALLED_APPS = (
     'mptt',
     'bootloader',
     'feinx',
-    'feinx.contrib.profile',
-    #'feinx.apps.forum',
+    'feinx.apps.forum',
+    'feinx.contrib.account',
+    'pagination',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -173,7 +177,7 @@ LOGGING = {
 #AUTH_PROFILE_MODULE = 'contrib.profile.Profile'
 
 # Use new feincms reverse
-FEINCMS_REVERSE_MONKEY_PATCH = False
+FEINCMS_REVERSE_MONKEY_PATCH = True
 
 # Feincms richtext editor
 FEINCMS_RICHTEXT_INIT_CONTEXT = {

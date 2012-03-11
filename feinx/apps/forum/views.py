@@ -8,15 +8,99 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 #from django.core.urlresolvers import reverse
-from feincms.content.application.models import app_reverse
-from apps.forum.forms import EditPostForm, NewPostForm
-from apps.forum.models import Topic, Forum, Post
-from apps.initial.utils import cache_result
 
+from feincms.content.application.models import app_reverse
+
+from feinx.apps.forum.forms import EditPostForm, NewPostForm
+from feinx.apps.forum.models import Topic, Forum, Post
+from feinx.utils.cache import cache_result
 
 @cache_result
 def forums():
     return Forum.objects.select_related().all()
+
+from django.views.generic import *
+'''
+class ForumIndexView(ListView):
+    """
+    Index Page of Forum
+    """
+    context_object_name = 'topics'
+    template_name = 'forum/forum_index.html'
+    model = Topic
+
+    def get_context_data(self, **kwargs):
+        context = super(ForumIndexView, self).get_context_data(**kwargs)
+        context['topics'] = Topic.objects.select_related().values(
+            'id',
+            'subject',
+            'posted_by',
+            'num_views',
+            'num_replies',
+            'created_on',
+            'forum__slug',
+            'forum__name',
+            'posted_by__username',
+        )[:getattr(settings, 'LATEST_TOPIC_NUMBER', 10)]
+        context['forums'] = forums()
+        return context
+'''
+class ForumTemplateView(TemplateView):
+    """
+    Index Page of Forum
+    """
+    template_name = 'forum/forum_index.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        context['topics'] = Topic.objects.select_related().values(
+            'id',
+            'subject',
+            'posted_by',
+            'num_views',
+            'num_replies',
+            'created_on',
+            'forum__slug',
+            'forum__name',
+            'posted_by__username',
+        )[:getattr(settings, 'LATEST_TOPIC_NUMBER', 10)]
+        context['forums'] = forums()
+        return render(request, self.template_name, context)
+
+class ForumView(View):
+    """
+    Each forum categories view
+    """
+    template_name = 'forum/forum_forum.html'
+
+    #def get_queryset(self):
+    #    forum = get_object_or_404(Forum, slug__iexact=self.args[0])
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        context['topics'] = Topic.objects.filter(forum__slug=kwargs['forum_slug']).select_related().order_by('-sticky', '-last_reply_on').values(
+            'id',
+            'subject',
+            'posted_by',
+            'num_views',
+            'num_replies',
+            'created_on',
+            'forum__slug',
+            'forum__name',
+            'posted_by__username',
+        )
+        context['forums'] = forums()
+        #topic = dict(context['topics'][0])
+        #context['forum_slug'] = topic['forum__slug']
+        #context['forum_id'] = topic['id']
+        #context['forum'] = get_object_or_404(Forum, slug=kwargs['forum_slug'])
+        #print context['topics'][0]
+        if len(context['topics']):
+            context['forum_slug'] = context['topics'][0]['forum__slug']
+            context['forum_id'] = context['topics'][0]['id']
+        else:
+            context['forum'] = None
+        return render(request, self.template_name, context)
 
 def forum_index(request, tpl="forum/forum_index.html"):
     topics = Topic.objects.select_related().values(
@@ -60,6 +144,29 @@ def forum_forum(request, forum_slug, tpl="forum/forum_forum.html"):
         'topics': topics,
     }
     return render(request, tpl, ctx)
+
+class ForumTopicView(View):
+    """
+    Display all threads of each topic.
+    """
+
+    template_name = 'forum/forum_topic.html'
+
+    def get(self, request, *args, **kwargs):
+        print kwargs
+        topic = get_object_or_404(Topic.objects.select_related(), pk=kwargs['topic_id'])
+        Topic.objects.filter(pk=kwargs['topic_id']).update(num_views=F('num_views') + 1)
+        threads = topic.post_set.order_by('created_on').select_related()
+        ctx = {
+            'topic': topic,
+            'posts': threads,
+            'replies': threads[1:],
+            'thread': threads[0],
+            'forum': topic.forum,
+            'forums': forums(),
+        }
+        return render(request, self.template_name, ctx)
+
 
 def forum_topic(request, topic_id, tpl="forum/forum_topic.html"):
     """
@@ -112,10 +219,10 @@ def forum_post_thread(request, forum_id=None, topic_id=None,
             post = form.save()
             if topic:
                 #return HttpResponseRedirect(post.get_absolute_url_ext())
-                return HttpResponseRedirect(app_reverse('forum-topic', 'forum.urls', kwargs={'topic_id': topic.pk,}))
+                return HttpResponseRedirect(app_reverse('forum-topic', 'feinx.apps.forum.urls', kwargs={'topic_id': topic.pk,}))
             else:
                 #return HttpResponseRedirect(reverse("forum-forum", args=[forum.slug]))
-                return HttpResponseRedirect(app_reverse("forum-forum", "forum.urls", args=[forum.slug]))
+                return HttpResponseRedirect(app_reverse('forum-forum', 'feinx.apps.forum.urls', args=[forum.slug]))
     else:
         initial={}
         qid = request.GET.get('qid', '')
@@ -183,19 +290,6 @@ def user_posts(request, user_id, template_name='forum/user_posts.html'):
         'view_user': view_user,
     }
     return render_to_response(template_name, extend_context, RequestContext(request))
-
-
-
-
-
-from django.views.generic import ListView, DetailView
-
-
-class ForumIndexView(ListView):
-    """
-    Index Page of Forum
-    """
-
 
 class TopicDetailView(DetailView):
     """

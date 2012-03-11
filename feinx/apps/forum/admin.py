@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from apps.forum.models import *
-
+from feinx.apps.forum.models import *
 
 def update_topic_num_replies(modeladmin, request, queryset):
     for topic in queryset:

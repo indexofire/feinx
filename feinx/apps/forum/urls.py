@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
-from apps.forum.views import *
+from feinx.apps.forum.views import *
 
 
 urlpatterns = patterns('',
     # landing page of a forum
-    url(r'^$', forum_index, name='forum-index'),
+    #url(r'^$', forum_index, name='forum-index'),
+    url(r'^$', ForumTemplateView.as_view(), name='forum-index'),
+    url(r'^forum/(?P<forum_slug>\w+)/$', ForumView.as_view(), name='forum-forum'),
     # topic list of a forum
-    url(r'^forum/(?P<forum_slug>\w+)/$', forum_forum, name='forum-forum'),
+    #url(r'^forum/(?P<forum_slug>\w+)/$', forum_forum, name='forum-forum'),
     # topic page
-    url(r'^topic/(?P<topic_id>\d+)/$', forum_topic, name='forum-topic'),
+    url(r'topic/(?P<topic_id>\d+)/$', ForumTopicView.as_view(), name='forum-topic'),
+    #url(r'^topic/(?P<topic_id>\d+)/$', forum_topic, name='forum-topic'),
     # add new topic
     url(r'^topic/new/(?P<forum_id>\d+)/$', forum_post_thread,
         name='forum-post-topic'),

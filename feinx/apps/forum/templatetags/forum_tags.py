@@ -8,29 +8,29 @@ from django.utils.translation import ugettext_lazy as _
 from django.template import TemplateSyntaxError
 from django.template.defaultfilters import date as _date
 from django.template.defaultfilters import timesince as _timesince
-try:
-    from postmarkup import create, QuoteTag, PostMarkup
-except ImportError:
-    raise TemplateSyntaxError("The python postmarkup module is not installed")
+#try:
+#    from postmarkup import create, QuoteTag, PostMarkup
+#except ImportError:
+#    raise TemplateSyntaxError("The python postmarkup module is not installed")
 
 
 register = template.Library()
 
 #bbcode
-class LBQuoteTag(QuoteTag):
-    """
-    """
-    def render_open(self, parser, node_index):
-        if self.params:
-            return u'<div class="quotebox"><cite>%s:</cite><blockquote><p>' % PostMarkup.standard_replace(self.params)
-        else:
-            return u'<div class="quotebox"><blockquote><p>'
+#class LBQuoteTag(QuoteTag):
+#    """
+#    """
+#    def render_open(self, parser, node_index):
+#        if self.params:
+#            return u'<div class="quotebox"><cite>%s:</cite><blockquote><p>' % PostMarkup.standard_replace(self.params)
+#        else:
+#            return u'<div class="quotebox"><blockquote><p>'
+#
+#    def render_close(self, parser, node_index):
+#        return u"</p></blockquote></div>"
 
-    def render_close(self, parser, node_index):
-        return u"</p></blockquote></div>"
-
-_postmarkup = create(use_pygments=False, annotate_links=False)
-_postmarkup.tag_factory.add_tag(LBQuoteTag, 'quote')
+#_postmarkup = create(use_pygments=False, annotate_links=False)
+#_postmarkup.tag_factory.add_tag(LBQuoteTag, 'quote')
 
 @register.filter
 def bbcode(s):

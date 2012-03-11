@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if announcement %}
+<div id="announcement" class="gen-content">
+  <strong>[{% trans "New Announcement" %}]</strong>
+  <a href="#">  {{ announcement.subject }}</a>
+  <p>{{ announcement.message }}</p>
+</div>
+{% endif %}
