@@ -70,7 +70,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    join(PROJECT_DIRS, 'asserts'),
+    join(PROJECT_DIRS, 'assets'),
 )
 
 # Set default theme, and change it in your own settings
