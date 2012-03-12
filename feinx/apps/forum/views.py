@@ -67,7 +67,7 @@ class ForumTemplateView(TemplateView):
         context['forums'] = forums()
         return render(request, self.template_name, context)
 
-class ForumView(View):
+class ForumForumView(View):
     """
     Each forum categories view
     """

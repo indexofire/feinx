@@ -40,7 +40,7 @@ THEME = 'default'
 
 # Add static directory
 STATICFILES_DIRS += (
-    join(PROJECT_DIRS, 'asserts/%s' % THEME),
+    join(PROJECT_DIRS, 'assets/%s' % THEME),
 )
 
 #

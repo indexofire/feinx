@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     # landing page of a forum
     #url(r'^$', forum_index, name='forum-index'),
     url(r'^$', ForumTemplateView.as_view(), name='forum-index'),
-    url(r'^forum/(?P<forum_slug>\w+)/$', ForumView.as_view(), name='forum-forum'),
+    url(r'^forum/(?P<forum_slug>\w+)/$', ForumForumView.as_view(), name='forum-forum'),
     # topic list of a forum
     #url(r'^forum/(?P<forum_slug>\w+)/$', forum_forum, name='forum-forum'),
     # topic page
