@@ -71,7 +71,7 @@ class Topic(models.Model):
     Topic is the top of a thread.
     """
     forum = models.ForeignKey(Forum, verbose_name=_('Forum'))
-    posted_by = models.ForeignKey(User)
+    posted_by = models.ForeignKey(Profile)
     subject = models.CharField(max_length=999)
     num_views = models.IntegerField(default=0)
     num_replies = models.PositiveSmallIntegerField(default=0)
@@ -158,3 +158,4 @@ class Post(models.Model):
             count()
         page = (post_idx - 1) / DEFAULT_CTX_CONFIG['TOPIC_PAGE_SIZE'] + 1
         return '%s?page=%s#p%s' % (topic.get_absolute_url(), page, self.pk)
+

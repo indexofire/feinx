@@ -28,15 +28,14 @@ class ExtensionMixin(object):
 
         here = cls.__module__.split('.')[:-1]
         here_path = '.'.join(here + ['extensions'])
-
         for ext in extensions:
             if ext in getattr(cls, cls_name): continue
-
             try:
                 if isinstance(ext, basestring):
                     try:
                         fn = get_callable(ext + '.register', False)
                     except ImportError:
+                        print here_path, '+', ext
                         fn = get_callable('%s.%s.register' % (here_path, ext), False)
                 # Not a string, so take our chances and just try to access "register"
                 else:

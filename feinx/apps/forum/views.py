@@ -45,9 +45,12 @@ class ForumIndexView(ListView):
         context['forums'] = forums()
         return context
 '''
-class ForumTemplateView(TemplateView):
+
+from django.views.generic import View
+
+class ForumIndexView(View):
     """
-    Index Page of Forum
+    Index page of forum.
     """
     template_name = 'forum/forum_index.html'
 
@@ -78,7 +81,7 @@ class ForumForumView(View):
 
     def get(self, request, *args, **kwargs):
         context = {}
-        context['topics'] = Topic.objects.filter(forum__slug=kwargs['forum_slug']).select_related().order_by('-sticky', '-last_reply_on').values(
+        context['topics'] = Topic.objects.filter(forum__id=kwargs['forum_id']).select_related().order_by('-sticky', '-last_reply_on').values(
             'id',
             'subject',
             'posted_by',
@@ -95,11 +98,7 @@ class ForumForumView(View):
         #context['forum_id'] = topic['id']
         #context['forum'] = get_object_or_404(Forum, slug=kwargs['forum_slug'])
         #print context['topics'][0]
-        if len(context['topics']):
-            context['forum_slug'] = context['topics'][0]['forum__slug']
-            context['forum_id'] = context['topics'][0]['id']
-        else:
-            context['forum'] = None
+        context['forum_id'] = kwargs['forum_id']
         return render(request, self.template_name, context)
 
 def forum_index(request, tpl="forum/forum_index.html"):
@@ -194,6 +193,31 @@ def post(request, post_id):
 def markitup_preview(request, template_name="forum/markitup_preview.html"):
     return render_to_response(template_name, {'message': request.POST['data']}, RequestContext(request))
 
+
+class ForumPostView(CreateView):
+    """
+    Post new topic or reply view.
+    """
+    template_name = 'forum/forum_post.html'
+    forum = None
+    topic = None
+
+    def get_form_kwargs(self):
+
+        if self.kwargs['forum_id']:
+            forum = get_object_or_404(Forum, pk=self.kwargs['forum_id'])
+        elif self.kwargs['topic_id']:
+            topic = get_object_or_404(Topic, pk=self.kwargs['topic_id'])
+            topic.update(num_replies=F('num_replies') + 1)
+            #forum = topic.forum
+        self.forum = forum
+        self.topic = topic
+
+    def get_context_data(self, **kwargs):
+        context = super(ForumPostView, self).get_context_data(**kwargs)
+        context['forum'] = self.forum
+        context['topic'] = self.topic
+
 @login_required
 def forum_post_thread(request, forum_id=None, topic_id=None,
     form_class=NewPostForm, tpl='forum/forum_post_thread.html'):
@@ -270,6 +294,13 @@ def edit_post(request, post_id, form_class=EditPostForm, template_name="forum/fo
     #extend_context['unpublished_attachments'] = request.user.attachment_set.all().filter(activated=False)
     extend_context['show_subject_fld'] = edit_post.topic_post
     return render_to_response(template_name, extend_context, RequestContext(request))
+
+class ForumDeleteView(View):
+    """
+    Delete a post.
+    """
+    pass
+
 
 @login_required
 def user_topics(request, user_id, template_name='forum/user_topics.html'):

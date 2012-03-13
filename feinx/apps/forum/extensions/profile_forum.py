@@ -3,13 +3,16 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+RANK_CHOICES = (
+    (1, _("Level 1")),
+    (2, _("Level 2")),
+    (3, _("Level 3")),
+)
+
 def register(cls, admin_cls):
-    cls.add_to_class(
-        'last_topic',
-        models.ForeignKey(
-            'Topic',
-        ),
-    )
+    """
+    Forum user profile
+    """
     cls.add_to_class(
         'forum_signature',
         models.CharField(
@@ -19,9 +22,10 @@ def register(cls, admin_cls):
     )
     cls.add_to_class(
         'rank',
-        models.CharField(
-            max_length=20,
-            choice=RANK_CHOICE,
+        models.PositiveSmallIntegerField(
+            max_length=2,
+            choices=RANK_CHOICES,
+            default=1,
         ),
     )
 

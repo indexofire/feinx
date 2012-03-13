@@ -20,7 +20,7 @@ def register(cls, admin_cls):
             User,
             unique=True,
             verbose_name=_('user'),
-            related_name='profile',
+            related_name='account_profile',
             blank=True,
             null=True,
         )
@@ -61,16 +61,8 @@ def register(cls, admin_cls):
 
     if admin_cls:
         if admin_cls.fieldsets:
-            admin_cls.fieldsets.append((_('Overview'),
-                {'fields': (
-                    #'user',
-                    'gender',
-                    'birthday',
-                    'telephone',
-                    'mobile',
-                    ),
-                'classes': (
-                    'collapse',
-                    )
+            admin_cls.fieldsets.append((_('Overview'), {
+                'fields': ('gender', 'birthday', 'telephone', 'mobile'),
+                'classes': ('wide',)
                 })
             )

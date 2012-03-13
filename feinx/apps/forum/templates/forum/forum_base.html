@@ -14,13 +14,15 @@
   <div class="row" id="forum-header">
     <div class="span3">
       {% block forum_title %}<h3 style="display:block; float:none">{% trans "Forum" %}</h3>{% endblock forum_title %}
+      <div class="pad">
       {% block forum_list %}
       <ul>
-        {% for fm in forums %}
-        <li class="list-item{% if fm == forum %} active-item{% endif %}"><a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' fm.slug %}" title="{{ fm.description }}">{{ fm.name }}</a></li>
+        {% for f in forums %}
+        <li class="list-item{% if fm == forum %} active-item{% endif %}"><a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' f.id %}" title="{{ fm.description }}">{{ f.name }}</a></li>
         {% endfor %}
       </ul>
-    {% endblock forum_list %}
+      {% endblock forum_list %}
+      </div>
     </div>
     <div class="span9">
       <div>{% block forum_tool %}{% endblock forum_tool %}</div>

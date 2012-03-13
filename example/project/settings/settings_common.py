@@ -141,7 +141,7 @@ INSTALLED_APPS = (
     'feinx',
     'feinx.apps.forum',
     'feinx.contrib.account',
-    'pagination',
+    #'pagination',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -177,7 +177,7 @@ LOGGING = {
 #AUTH_PROFILE_MODULE = 'contrib.profile.Profile'
 
 # Use new feincms reverse
-FEINCMS_REVERSE_MONKEY_PATCH = True
+FEINCMS_REVERSE_MONKEY_PATCH = False
 
 # Feincms richtext editor
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
