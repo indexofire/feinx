@@ -137,9 +137,9 @@ INSTALLED_APPS = (
     'feincms.module.page',
     'feincms.module.medialibrary',
     'mptt',
-    'bootloader',
     'feinx',
     'feinx.apps.forum',
+    'feinx.apps.bootloader',
     'feinx.contrib.account',
     #'pagination',
 )

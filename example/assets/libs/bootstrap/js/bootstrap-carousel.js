@@ -1,5 +1,5 @@
 /* ==========================================================
- * bootstrap-carousel.js v2.0.1
+ * bootstrap-carousel.js v2.0.2
  * http://twitter.github.com/bootstrap/javascript.html#carousel
  * ==========================================================
  * Copyright 2012 Twitter, Inc.
@@ -29,6 +29,9 @@
     this.$element = $(element)
     this.options = $.extend({}, $.fn.carousel.defaults, options)
     this.options.slide && this.slide(this.options.slide)
+    this.options.pause == 'hover' && this.$element
+      .on('mouseenter', $.proxy(this.pause, this))
+      .on('mouseleave', $.proxy(this.cycle, this))
   }
 
   Carousel.prototype = {
@@ -136,6 +139,7 @@
 
   $.fn.carousel.defaults = {
     interval: 5000
+  , pause: 'hover'
   }
 
   $.fn.carousel.Constructor = Carousel

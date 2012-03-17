@@ -4,10 +4,10 @@ from django.utils.translation import ugettext_lazy as _
 from feincms.module.page.models import Page
 from feincms.content.application.models import ApplicationContent
 from feincms.content.richtext.models import RichTextContent
-#from feincms.content.image.models import ImageContent
-#from feincms.content.comments.models import CommentsContent
-#from feincms.content.medialibrary.v2 import MediaFileContent
-#from feincms.content.raw.models import RawContent
+from feincms.content.image.models import ImageContent
+from feincms.content.comments.models import CommentsContent
+from feincms.content.medialibrary.v2 import MediaFileContent
+from feincms.content.raw.models import RawContent
 
 #from feinx.content.markup.models import MarkupContent
 #from feinx.content.form.models import FormContent
@@ -96,14 +96,14 @@ Page.register_templates(
 Page.create_content_type(RichTextContent)
 
 # Add image content type
-#Page.create_content_type(
-#    ImageContent,
-#    POSITION_CHOICES=(
-#        ('block', _('block')),
-#        ('left', _('left')),
-#        ('right', _('right')),
-#    )
-#)
+Page.create_content_type(
+    ImageContent,
+    POSITION_CHOICES=(
+        ('block', _('block')),
+        ('left', _('left')),
+        ('right', _('right')),
+    )
+)
 
 # Add markup content type
 #Page.create_content_type(MarkupContent)
@@ -130,19 +130,19 @@ Page.create_content_type(
 #Page.create_content_type(FormContent)
 
 # Add comment content type
-#Page.create_content_type(CommentsContent)
+Page.create_content_type(CommentsContent)
 
 # Add Media Library
-#Page.create_content_type(
-#    MediaFileContent,
-#    TYPE_CHOICES=(
-#        ('lightbox', _('lightbox')),
-#        ('download', _('download')),
-#    )
-#)
+Page.create_content_type(
+    MediaFileContent,
+    TYPE_CHOICES=(
+        ('lightbox', _('lightbox')),
+        ('download', _('download')),
+    )
+)
 
 # Add raw content type
-#Page.create_content_type(RawContent)
+Page.create_content_type(RawContent)
 
 # Create reversion
 #Page.register_with_reversion()
