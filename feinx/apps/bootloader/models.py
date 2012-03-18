@@ -14,6 +14,12 @@ from feincms.content.raw.models import RawContent
 #from feinx.content.googlemap.models import GoogleMapsContent
 #from feinx.content.gallery.models import GalleryContent
 
+from feinx.apps.bootloader.settings import *
+
+
+
+
+
 # Register page extensions
 Page.register_extensions(
     'datepublisher',

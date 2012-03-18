@@ -4,6 +4,7 @@ try:
     import cPickle as pickle
 except:
     import pickle
+
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -17,35 +18,31 @@ from feinx.apps.forum.managers import TopicManager
 from feinx.contrib.account.models import Profile
 
 __all__ = [
-    'Config',
     'Forum',
-    'Post',
     'Topic',
+    'Thread',
+    'Post',
 ]
 
-class Config(models.Model):
-    key = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-
+class Category(models.Model):
+    pass
 
 class Forum(models.Model):
     """
     Each forum model contains a series of topics.
     """
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
-    description = models.TextField(default='Forum Desctiption')
-    ordering = models.PositiveIntegerField(default=1)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(blank=True, null=True)
-    num_topics = models.IntegerField(default=0)
-    num_posts = models.IntegerField(default=0)
-    last_post = models.CharField(max_length=255, blank=True)
+    name = models.CharField(_('Name'), max_length=255)
+    slug = models.SlugField(_('Slug'), max_length=255)
+    description = models.TextField(_('Description'), help_text='', blank=True)
+    moderators = models.ManyToManyField(Profile, blank=True, null=True, verbose_name=_('Moderators'))
+    ordering = models.PositiveIntegerField(_('Ordering'), blank=False, default=1)
+    created = models.DateTimeField(_('Created Time'), blank=True, auto_now_add=True, editable=False)
+    updated = models.DateTimeField(_('Updated Time'), blank=True, null=True)
 
     class Meta:
+        ordering = ['ordering']
         verbose_name = _("Forum")
         verbose_name_plural = _("Forums")
-        ordering = ('ordering', '-created_on')
 
     def count_nums_topic(self):
         return self.topic_set.all().count()
@@ -58,34 +55,42 @@ class Forum(models.Model):
             return {}
         return pickle.loads(b64decode(self.last_post))
 
+    @property
+    def get_topic_number(self):
+        return self.topic_set.all().count()
+
     @models.permalink
     def get_absolute_url(self):
-        return ('forum-forum', (), {'forum_slug': self.slug})
+        return app_reverse('forum-forum', 'feinx.apps.forum.urls', {
+            'forum_pk': self.pk,
+        })
 
     def __unicode__(self):
         return self.name
 
 
-class Topic(models.Model):
+class Topic1(models.Model):
     """
     Topic is the top of a thread.
     """
     forum = models.ForeignKey(Forum, verbose_name=_('Forum'))
-    posted_by = models.ForeignKey(Profile)
+    author = models.ForeignKey(Profile)
+    author_ip = models.IPAddressField(_('Author\'s IP'), blank=True, default='0.0.0.0')
     subject = models.CharField(max_length=999)
     num_views = models.IntegerField(default=0)
     num_replies = models.PositiveSmallIntegerField(default=0)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(blank=True, null=True)
     last_reply_on = models.DateTimeField(auto_now_add=True)
     last_post = models.CharField(max_length=255, blank=True)
     closed = models.BooleanField(default=False)
     sticky = models.BooleanField(default=False)
     hidden = models.BooleanField(default=False)
+
     objects = TopicManager()
 
     class Meta:
-        ordering = ('-last_reply_on',)
+        ordering = ['-last_reply_on']
         get_latest_by = ('created_on')
         verbose_name = _("Topic")
         verbose_name_plural = _("Topics")
@@ -99,13 +104,72 @@ class Topic(models.Model):
     @models.permalink
     def get_absolute_url(self):
         #return ('forum-topic', (), {'topic_id': self.id})
-        return app_reverse('forum-post', 'forum.urls', kwargs={'post_id': self.pk,})
+        return app_reverse('forum-post', 'feinx.apps.forum.urls', kwargs={
+            'post_id': self.pk,
+        })
 
     def get_last_post(self):
         if not self.last_post:
             return {}
         return pickle.loads(b64decode(self.last_post))
 
+class Thread(models.Model):
+    """ Abstract models of thread which could be a topic or a reply. """
+    author = models.ForeignKey(Profile)
+    author_ip = models.IPAddressField(_('Author\'s IP'), blank=False, default='0.0.0.0')
+    created = models.DateTimeField(_('Created Time'), blank=False, auto_now_add=True, editable=False)
+    updated = models.DateTimeField(_('Updated Time'), blank=True, null=True)
+    #attachment = models.ManyToManyField(Attachment)
+
+    class Meta:
+        abstract = True
+        ordering = ['-created']
+        get_latest_by = 'created'
+        verbose_name = _("Thread")
+        verbose_name_plural = _("Threads")
+
+    def __unicode__(self):
+        return self.pk
+
+    @models.permalink
+    def get_absolute_url(self):
+        return app_reverse('forum-post', 'feinx.apps.forum.urls', kwargs={
+            'post_id': self.pk,
+        })
+
+class Reply(ForumThread):
+    """ A reply models of a topic. """
+    topic = models.ForeignKey(Topic, verbose_name=_('Topic'))
+    content = models.TextField()
+
+    class Meta:
+        verbose_name = _("Forum Reply")
+        verbose_name_plural = _("Forum Replies")
+        ordering = ['-created']
+        get_latest_by = 'created'
+
+    def __unicode__(self):
+        return self.content[:80]
+
+class Topic(ForumTopic):
+    """ A topic models which connect with reply sets. """
+    subject = models.CharField(_('Topic Subject'), max_length=255, blank=False, null=False)
+    r_num = models.PositiveIntegerField(default=0)
+    v_num = models.PositiveIntegerField(default=0)
+    closed = models.BooleanField(default=False)
+    sticky = models.BooleanField(default=False)
+    hidden = models.BooleanField(default=False)
+
+    objects = ForumTopicManager()
+
+    class Meta:
+        ordering = ['-last_reply_on']
+        get_latest_by = ('created_on')
+        verbose_name = _("Topic")
+        verbose_name_plural = _("Topics")
+
+    def __unicode__(self):
+        return self.subject
 
 class Post(models.Model):
     """
@@ -150,7 +214,7 @@ class Post(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return (app_reverse('forum-post', 'forum.urls', kwargs={'post_id': self.pk,}))
+        return (app_reverse('forum-post', 'feinx.apps.forum.urls', kwargs={'post_id': self.pk,}))
 
     def get_absolute_url_ext(self):
         topic = self.topic
