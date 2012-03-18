@@ -23,48 +23,46 @@ update_forum_nums_topic_post.short_description = _(u"Update topic/post numbers")
 class ForumAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'slug',
-        'num_topics',
-        'num_posts',
+        'get_topic_number',
+        'get_thread_number',
     )
     actions = [update_forum_nums_topic_post]
 
 
-class PostInline(admin.TabularInline):
-    model = Post
-
+class ReplyInline(admin.TabularInline):
+    model = Reply
 
 class TopicAdmin(admin.ModelAdmin):
     list_display = (
         'subject',
         'forum',
-        'posted_by',
+        'author',
         'sticky',
         'closed',
         'hidden',
-        'num_views',
-        'num_replies',
-        'created_on',
-        'updated_on',
+        'view_num',
+        'reply_num',
+        'created',
+        'updated',
     )
     list_filter = ('forum', 'sticky', 'closed', 'hidden',)
-    search_fields = ('subject', 'posted_by__username', )
-    inlines = (PostInline, )
+    search_fields = ('subject', 'author__username', )
+    inlines = (ReplyInline, )
     actions = [update_topic_num_replies]
 
 
-class PostAdmin(admin.ModelAdmin):
+class ReplyAdmin(admin.ModelAdmin):
     list_display = (
         '__unicode__',
         'topic',
-        'posted_by',
-        'poster_ip',
-        'created_on',
-        'updated_on',
+        'author',
+        'author_ip',
+        'created',
+        'updated',
     )
-    search_fields = ('topic__subject', 'posted_by__username', 'message', )
+    search_fields = ('topic__subject', 'author__username', 'message', )
 
 
 admin.site.register(Forum, ForumAdmin)
 admin.site.register(Topic, TopicAdmin)
-admin.site.register(Post, PostAdmin)
+admin.site.register(Reply, ReplyAdmin)

@@ -2,7 +2,7 @@
 from datetime import datetime
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import Topic, Post
+from feinx.apps.forum.models import Topic, Reply
 #from attachment.models import Attachment
 
 
@@ -15,7 +15,7 @@ class PostForm(forms.ModelForm):
     #    widget=forms.SelectMultiple())
 
     class Meta:
-        model = Post
+        model = Reply
         fields = ('message',)
 
     def __init__(self, *args, **kwargs):

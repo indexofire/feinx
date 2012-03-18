@@ -8,11 +8,9 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 #from django.core.urlresolvers import reverse
-
 from feincms.content.application.models import app_reverse
-
 from feinx.apps.forum.forms import EditPostForm, NewPostForm
-from feinx.apps.forum.models import Topic, Forum, Post
+from feinx.apps.forum.models import *
 from feinx.utils.cache import cache_result
 
 @cache_result
@@ -59,13 +57,12 @@ class ForumIndexView(View):
         context['topics'] = Topic.objects.select_related().values(
             'id',
             'subject',
-            'posted_by',
-            'num_views',
-            'num_replies',
-            'created_on',
-            'forum__slug',
+            'author',
+            'view_num',
+            'reply_num',
+            'created',
             'forum__name',
-            'posted_by__username',
+            'author__username',
         )[:getattr(settings, 'LATEST_TOPIC_NUMBER', 10)]
         context['forums'] = forums()
         return render(request, self.template_name, context)
@@ -84,9 +81,9 @@ class ForumForumView(View):
         context['topics'] = Topic.objects.filter(forum__id=kwargs['forum_id']).select_related().order_by('-sticky', '-last_reply_on').values(
             'id',
             'subject',
-            'posted_by',
-            'num_views',
-            'num_replies',
+            'author',
+            'view_num',
+            'reply_num',
             'created_on',
             'forum__slug',
             'forum__name',
