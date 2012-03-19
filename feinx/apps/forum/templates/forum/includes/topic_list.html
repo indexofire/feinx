@@ -9,13 +9,13 @@
   {% for topic in topics %}
   <li class="topic">
     <div class="avatar">
-      <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.posted_by__username %}"><img src="{% if topic.posted_by__avatar %}{{ MEDIA_URL}}{{ topic.posted_by__avatar }}{% else %}{{ MEDIA_URL }}avatar/default.png{% endif %}" height="{{ AVATAR_HEIGHT }}" width="{{ AVATAR_WIDTH }}"></a>
+      <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.author__username %}"><img src="{% if topic.author__avatar %}{{ MEDIA_URL}}{{ topic.author__avatar }}{% else %}{{ MEDIA_URL }}avatar/default.png{% endif %}" height="{{ AVATAR_HEIGHT }}" width="{{ AVATAR_WIDTH }}"></a>
     </div>
     <p><a href="{% app_reverse 'forum-topic' 'feinx.apps.forum.urls' topic.id %}">{{ topic.subject }}</a></p>
-    <div class="fade-in">By <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.posted_by__username %}" class="dark">{{ topic.posted_by__username }}</a> in <a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' topic.forum__slug %}">{{ topic.forum__name }}</a> <span class="created">{{ topic.created_on|lbtimesince }}</span></div>
+    <div class="fade-in">By <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.author__username %}" class="dark">{{ topic.author__username }}</a> in <a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' topic.forum__id %}">{{ topic.forum__name }}</a> <span class="created">{{ topic.created|lbtimesince }}</span></div>
     <div class="topic-info">
-      <div class="replies">{{ topic.num_replies }}</div>
-      <div class="views">{{ topic.num_views }}</div>
+      <div class="replies">{{ topic.reply_num }}</div>
+      <div class="views">{{ topic.view_num }}</div>
     </div>
   </li>
   {% endfor %}

@@ -1,50 +1,21 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db.models import F
+from django.views.generic import View, CreateView, DetailView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-#from django.core.urlresolvers import reverse
 from feincms.content.application.models import app_reverse
 from feinx.apps.forum.forms import EditPostForm, NewPostForm
-from feinx.apps.forum.models import *
+from feinx.apps.forum.models import Forum, Topic, Reply
 from feinx.utils.cache import cache_result
 
 @cache_result
 def forums():
     return Forum.objects.select_related().all()
-
-from django.views.generic import *
-'''
-class ForumIndexView(ListView):
-    """
-    Index Page of Forum
-    """
-    context_object_name = 'topics'
-    template_name = 'forum/forum_index.html'
-    model = Topic
-
-    def get_context_data(self, **kwargs):
-        context = super(ForumIndexView, self).get_context_data(**kwargs)
-        context['topics'] = Topic.objects.select_related().values(
-            'id',
-            'subject',
-            'posted_by',
-            'num_views',
-            'num_replies',
-            'created_on',
-            'forum__slug',
-            'forum__name',
-            'posted_by__username',
-        )[:getattr(settings, 'LATEST_TOPIC_NUMBER', 10)]
-        context['forums'] = forums()
-        return context
-'''
-
-from django.views.generic import View
 
 class ForumIndexView(View):
     """
@@ -61,6 +32,7 @@ class ForumIndexView(View):
             'view_num',
             'reply_num',
             'created',
+            'forum__id',
             'forum__name',
             'author__username',
         )[:getattr(settings, 'LATEST_TOPIC_NUMBER', 10)]
@@ -78,68 +50,20 @@ class ForumForumView(View):
 
     def get(self, request, *args, **kwargs):
         context = {}
-        context['topics'] = Topic.objects.filter(forum__id=kwargs['forum_id']).select_related().order_by('-sticky', '-last_reply_on').values(
+        context['topics'] = Topic.objects.filter(forum__id=kwargs['forum_id']).select_related().order_by('-sticky').values(
             'id',
             'subject',
             'author',
             'view_num',
             'reply_num',
-            'created_on',
-            'forum__slug',
+            'created',
+            'forum__id',
             'forum__name',
-            'posted_by__username',
+            'author__username',
         )
         context['forums'] = forums()
-        #topic = dict(context['topics'][0])
-        #context['forum_slug'] = topic['forum__slug']
-        #context['forum_id'] = topic['id']
-        #context['forum'] = get_object_or_404(Forum, slug=kwargs['forum_slug'])
-        #print context['topics'][0]
         context['forum_id'] = kwargs['forum_id']
         return render(request, self.template_name, context)
-
-def forum_index(request, tpl="forum/forum_index.html"):
-    topics = Topic.objects.select_related().values(
-        'id',
-        'subject',
-        'posted_by',
-        'num_views',
-        'num_replies',
-        'created_on',
-        'forum__slug',
-        'forum__name',
-        'posted_by__username',
-        #'posted_by__user__name',
-        #'posted_by__avatar',
-    )[:getattr(settings, 'LATEST_TOPIC_NUMBER', 10)]
-    ctx = {
-        'topics': topics,
-        'forums': forums(),
-    }
-    return render(request, tpl, ctx)
-
-def forum_forum(request, forum_slug, tpl="forum/forum_forum.html"):
-    forum = get_object_or_404(Forum, slug=forum_slug)
-    topics = Topic.objects.select_related().filter(forum__slug=forum_slug). \
-        order_by('-sticky', '-last_reply_on').values(
-            'id',
-            'subject',
-            'posted_by',
-            'num_views',
-            'num_replies',
-            'created_on',
-            'forum__slug',
-            'forum__name',
-            'posted_by__username',
-            #'posted_by__name',
-            #'posted_by__avatar',
-        )
-    ctx = {
-        'forums': forums(),
-        'forum': forum,
-        'topics': topics,
-    }
-    return render(request, tpl, ctx)
 
 class ForumTopicView(View):
     """
