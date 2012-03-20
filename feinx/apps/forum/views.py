@@ -75,13 +75,13 @@ class ForumTopicView(View):
     def get(self, request, *args, **kwargs):
         print kwargs
         topic = get_object_or_404(Topic.objects.select_related(), pk=kwargs['topic_id'])
-        Topic.objects.filter(pk=kwargs['topic_id']).update(num_views=F('num_views') + 1)
-        threads = topic.post_set.order_by('created_on').select_related()
+        Topic.objects.filter(pk=kwargs['topic_id']).update(view_num=F('view_num') + 1)
+        replies = topic.reply_set.order_by('created').select_related()
         ctx = {
             'topic': topic,
-            'posts': threads,
-            'replies': threads[1:],
-            'thread': threads[0],
+            'posts': replies,
+            'replies': replies,
+            'thread': topic,
             'forum': topic.forum,
             'forums': forums(),
         }
