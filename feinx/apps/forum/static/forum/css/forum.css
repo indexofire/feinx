@@ -1,0 +1,131 @@
+#forum-header {
+    height: 48px;
+}
+#forum-header h3 {
+    float: left;
+}
+#forum-header h3 a:hover {
+    text-decoration: none;
+    border-bottom: 1px solid #222;
+}
+.forum {
+    padding: 10px;
+    background-color: #D14836;
+    color: white;
+    display: block;
+    min-width: 200px;
+    text-align: center;
+    font-weight: bold;
+}
+ul.topic-list {
+    width: 100%;
+    margin:0px;
+}
+li.topic-bar {
+    background:#F5F5F5;
+    padding: 8px 10px;
+    margin: 0px;
+    color: #666;
+    position: relative;
+    height: 16px;
+}
+li.topic {
+    border-bottom: 1px solid #EBEBEB;
+    padding: 10px;
+    position: relative;
+    margin: 0px;
+    cursor: pointer;
+}
+li.topic:hover {
+    background: #F5F5F5;
+}
+li.topic a {
+    text-decoration: none;
+}
+li.topic p a:hover,
+li.topic div.fade-in a:hover {
+    border-bottom: 1px solid #636363;
+}
+div.fade-in {
+    color: #999;
+    font-size: 12px;
+    margin: 0px;
+    width: 100%;
+}
+li.topic h3 {
+    width: 600px;
+}
+div.replies,
+div.views {
+    float: left;
+    line-height:48px;
+    padding: 5px 20px;
+    font-size: 1.2em;
+}
+div.avatar {
+    padding: 0px;
+    margin: 0px 10px 0px 0px;
+    float: left;
+}
+.topic-info {
+    float: right;
+    position: absolute;
+    right: 8px;
+    top: 7px;
+}
+.topic-title {
+    width: 560px;
+}
+div.count-title {
+    float: left;
+    padding: 0px 10px;
+}
+.forum-title {
+    margin: 3px 0px;
+    padding: 3px 0px;
+    font-size: 16px;
+}
+.forum-title a:hover {
+    background: #CECECE;
+    border-bottom: 2px solid #939393;
+}
+.post-tool {
+    float: right;
+}
+.post-tool a {
+    margin-left: 10px;
+    border-bottom: 1px solid transparent;
+}
+.post-tool a:hover {
+    border-bottom: 1px solid transparent;
+}
+textarea#quick-reply {
+    float: left;
+    margin-top:10px;
+    height: 40px;
+}
+textarea#id_message {
+    width: 100%;
+    height: 240px;
+}
+.errornote {
+    color: red;
+}
+.pagination {
+    margin: 12px 10px;
+    border-left: 1px solid #DDD;
+}
+.pagination .prev,
+.pagination .next,
+.pagination .page {
+    float: left;
+    padding: 0 14px;
+    line-height: 34px;
+    text-decoration: none;
+    border: 1px solid #DDD;
+    border-left-width: 0;
+    border-image: initial;
+}
+.pagination .current {
+    background-color: #ECECEC;
+}
