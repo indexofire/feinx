@@ -73,19 +73,27 @@ class ForumTopicView(View):
     template_name = 'forum/forum_topic.html'
 
     def get(self, request, *args, **kwargs):
-        print kwargs
-        topic = get_object_or_404(Topic.objects.select_related(), pk=kwargs['topic_id'])
+        topic = get_object_or_404(Topic.objects.select_related().values(
+            'id',
+            'author__username',
+            'content',
+            'forum',
+            'forum__id',
+            ), pk=kwargs['topic_id'])        
         Topic.objects.filter(pk=kwargs['topic_id']).update(view_num=F('view_num') + 1)
-        replies = topic.reply_set.order_by('created').select_related()
-        ctx = {
+        #t = get_object_or_404(Topic, pk=kwargs['topic_id'])
+        forum = topic['forum']
+        forum_id = topic['id']
+        replies = t.reply_set.order_by('created').select_related()
+        context = {
             'topic': topic,
             'posts': replies,
             'replies': replies,
             'thread': topic,
-            'forum': topic.forum,
+            'forum': forum,
             'forums': forums(),
         }
-        return render(request, self.template_name, ctx)
+        return render(request, self.template_name, context)
 
 
 def forum_topic(request, topic_id, tpl="forum/forum_topic.html"):

@@ -3,14 +3,14 @@
 <ul style="margin:0px;">
 <li class="topic" style="background: #FCFCFC">
   <div class="avatar">
-    <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.author.username %}" >
+    <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.author__username %}" >
       <img src="{{ topic.author.avatar }}" height="{{ AVATAR_HEIGHT}}" width="{{ AVATAR_WIDTH }}">
     </a>
   </div>
   <p>{{ thread.content|safe }}</p>
-  <div class="fade-in">By <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.author.username %}" class="dark">{{ topic.author }}</a> in <a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' topic.forum.id %}">{{ topic.forum }}</a> <span class="created">{{ thread.created|lbtimesince }}</span>  {% if request.user.is_authenticated %}
-  <span class="quote-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-reply-topic' 'feinx.apps.forum.urls' topic.pk %}?qid={{ thread.pk }}">{% trans "quote" %}</a></span>
-  {% if request.user == topic.author or user.is_staff %}<span class="edit-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-edit-post' 'feinx.apps.forum.urls' thread.pk %}">{% trans "edit" %}</a></span>{% endif %}
+  <div class="fade-in">By <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' topic.author__username %}" class="dark">{{ topic.author }}</a> in <a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' forum.id %}">{{ topic.forum }}</a> <span class="created">{{ thread.created|lbtimesince }}</span>  {% if request.user.is_authenticated %}
+  <span class="quote-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-reply-topic' 'feinx.apps.forum.urls' topic.id %}?qid={{ thread.id }}">{% trans "quote" %}</a></span>
+  {% if request.user == topic.author or user.is_staff %}<span class="edit-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-edit-post' 'feinx.apps.forum.urls' thread.id %}">{% trans "edit" %}</a></span>{% endif %}
   {% endif %}
   </div>
 </li>

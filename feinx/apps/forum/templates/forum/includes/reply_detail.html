@@ -6,9 +6,9 @@
     </a>
   </div>
   <p>{{ reply.content|safe }}</p>
-  <div class="fade-in">By <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' reply.author.username %}" class="dark">{{ reply.author.username }}</a> in <a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' topic.forum.id %}">{{ topic.forum }}</a> <span class="created">{{ reply.created|lbtimesince }}</span>
+  <div class="fade-in">By <a href="{% app_reverse 'profile-detail' 'feinx.contrib.account.urls' reply.author.username %}" class="dark">{{ reply.author.username }}</a> in <a href="{% app_reverse 'forum-forum' 'feinx.apps.forum.urls' forum.id %}">{{ topic.forum }}</a> <span class="created">{{ reply.created|lbtimesince }}</span>
   {% if request.user.is_authenticated %}
-  <span class="quote-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-reply-topic' 'feinx.apps.forum.urls' topic.pk %}?qid={{ reply.pk }}">{% trans "quote" %}</a></span>
+  <span class="quote-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-reply-topic' 'feinx.apps.forum.urls' topic.id %}?qid={{ reply.pk }}">{% trans "quote" %}</a></span>
   {% if request.user == reply.author or user.is_staff %}
   <span class="edit-post" style="float:right; padding-left:5px"><a href="{% app_reverse 'forum-edit-post' 'feinx.apps.forum.urls' reply.pk %}">{% trans "edit" %}</a></span>
   {% endif %}
