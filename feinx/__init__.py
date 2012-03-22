@@ -1,1 +1,4 @@
-__version__ = (0, 0, 1, 'alpha')
+# -*- coding: utf-8 -*-
+from distutils.version import StrictVersion
+
+VERSION = StrictVersion('0.0.1a1')
