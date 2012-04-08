@@ -18,6 +18,7 @@ def register(cls, admin_cls):
         models.CharField(
             max_length=255,
             blank=True,
+            null=False,
         ),
     )
     cls.add_to_class(
