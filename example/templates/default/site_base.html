@@ -10,7 +10,7 @@
   <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico"/>
   <link href="http://fonts.googleapis.com/css?family=Lemon" rel="stylesheet" type="text/css"/>
   <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <script type="text/javascript" src="{% if debug %}{{ STATIC_URL }}libs/jquery/jquery-1.7.1.min.js{% else %}https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js{% endif %}"></script>
+  <script type="text/javascript" src="{% if debug %}{{ STATIC_URL }}libs/jquery/jquery-1.7.2.min.js{% else %}https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js{% endif %}"></script>
 {% block extra_head %}{% endblock extra_head %}
 {{ feincms_page.content.media }}
 {{ feincms_page.object.media }}

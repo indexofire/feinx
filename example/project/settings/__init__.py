@@ -22,9 +22,6 @@ HOST_MAP = {
         'django-server',
         'hzcdclabs.org',
     ),
-    'settings_epio': (
-        'ep.io',
-    ),
     'settings_dotcloud': (
         'dotcloud.com',
     ),
