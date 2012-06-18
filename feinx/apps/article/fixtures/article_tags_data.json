@@ -1,0 +1,11 @@
+[
+  {
+    "pk": 4,
+    "model": "article.article",
+    "fields": {
+      "title": "Tag test",
+      "active": true,
+      "slug": "tag-test"
+    }
+  }
+]

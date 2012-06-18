@@ -1,0 +1,50 @@
+[
+  {
+    "pk": 1,
+    "model": "article.article",
+    "fields": {
+      "title": "Test article",
+      "active": true,
+      "slug": "test-article"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "article.richtextcontent",
+    "fields": {
+      "ordering": 0,
+      "text": "<p>The overview (rich text) content.</p>",
+      "region": "overview",
+      "parent": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "article.richtextcontent",
+    "fields": {
+      "ordering": 0,
+      "text": "<p>The full article!</p>",
+      "region": "main",
+      "parent": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "article.article",
+    "fields": {
+      "title": "Inactive article",
+      "active": false,
+      "slug": "inactive-article"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "article.richtextcontent",
+    "fields": {
+      "ordering": 0,
+      "text": "<p>More information ...</p>",
+      "region": "overview",
+      "parent": 2
+    }
+  }
+]

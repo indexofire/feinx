@@ -1,0 +1,11 @@
+[
+  {
+    "pk": 3,
+    "model": "article.article",
+    "fields": {
+      "title": "Publication date test",
+      "active": true,
+      "slug": "publication-date-test"
+    }
+  }
+]
