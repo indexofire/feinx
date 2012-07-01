@@ -7,13 +7,11 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.admin import UserAdmin, csrf_protect_m
 from django.utils.translation import ugettext_lazy as _
-
 from feinx.contrib.account.forms import ProfileAdminForm
 from feinx.utils.mixins import ExtensionMixin
 
-# No effect?
+
 if getattr(settings, 'AUTH_PROFILE_MODULE', False) and settings.AUTH_PROFILE_MODULE == "profile.Profile":
-    print 'get it'
     def get_profile(self):
         """Returns profile for this user."""
         return self.profile

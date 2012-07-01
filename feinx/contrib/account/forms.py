@@ -4,15 +4,13 @@ from django.conf import settings
 from django.db.models import get_model
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
+import feinx
 
-#from feinx.contrib.profile.models import Profile
-
-try:
-    user_model = get_model(*settings.CUSTOM_USER_MODEL.split('.', 2))
-except AttributeError:
-    from django.contrib.auth.models import User as user_model
 
 class UserChangeForm(forms.ModelForm):
+    """
+    Change profile information form
+    """
     password1 = forms.CharField(
         label=_('Password'),
         required=False,
@@ -25,7 +23,9 @@ class UserChangeForm(forms.ModelForm):
     )
 
     class Meta:
-        model = user_model
+        #model = feinx.contrib.account.models.Profile
+        from django.contrib.auth.models import User
+        model = User
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -49,10 +49,10 @@ class UserChangeForm(forms.ModelForm):
 
 
 class ProfileForm(UserChangeForm):
-    """Form for user profile"""
-
+    """
+    Form for user profile
+    """
     class Meta:
-        #model = Profile
         exclude = (
             'date_joined',
             'groups',
@@ -76,18 +76,17 @@ class ProfileForm(UserChangeForm):
         email = self.cleaned_data.get('email', None)
 
         if email:
-            users = Profile.objects.filter(email__iexact=email)
+            users = feinx.contrib.account.models.Profile.objects.filter(email__iexact=email)
             if self.instance and self.instance.pk:
                 users = users.exclude(pk=self.instance.pk)
             if users.count() > 0:
-                raise forms.ValidationError(_('That email address is already \
-                    in use.'))
-
+                raise forms.ValidationError(_('That email address is already in use.'))
         return email
+
 
 class ProfileAdminForm(forms.ModelForm):
     """
-    Admin form for profile
+    AdminForm for user profile creation and revision.
     """
     def clean_email(self):
         """
@@ -96,11 +95,10 @@ class ProfileAdminForm(forms.ModelForm):
         email = self.cleaned_data.get('email', None)
 
         if email:
-            users = Profile.objects.filter(email__iexact=email)
+            users = feinx.contrib.account.models.Profile.objects.filter(email__iexact=email)
             if self.instance:
                 users = users.exclude(pk=self.instance.pk)
             if users.count() > 0:
-                raise forms.ValidationError(_('That email address is already \
-                    in use.'))
+                raise forms.ValidationError(_('That email address is already in use.'))
         return email
 
