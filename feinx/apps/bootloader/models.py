@@ -5,9 +5,15 @@ from feincms.module.page.models import Page
 from feincms.content.application.models import ApplicationContent
 from feincms.content.richtext.models import RichTextContent
 from feincms.content.image.models import ImageContent
+from feincms.content.file.models import FileContent
 from feincms.content.comments.models import CommentsContent
 from feincms.content.medialibrary.v2 import MediaFileContent
 from feincms.content.raw.models import RawContent
+from feincms.content.contactform.models import ContactFormContent
+from feincms.content.rss.models import RSSContent
+from feincms.content.section.models import SectionContent
+from feincms.content.table.models import TableContent
+from feincms.content.template.models import TemplateContent
 
 #from feinx.content.markup.models import MarkupContent
 #from feinx.content.form.models import FormContent
@@ -15,9 +21,6 @@ from feincms.content.raw.models import RawContent
 #from feinx.content.gallery.models import GalleryContent
 
 from feinx.apps.bootloader.settings import *
-
-
-
 
 
 # Register page extensions
@@ -118,7 +121,7 @@ Page.create_content_type(
 #Page.create_content_type(GoogleMapsContent)
 
 # Add table content type
-#Page.create_content_type(TableContent)
+Page.create_content_type(TableContent)
 
 # Add applications in pages
 Page.create_content_type(
@@ -155,3 +158,21 @@ Page.create_content_type(RawContent)
 
 # Add gallery content type
 #Page.create_content_type(GalleryContent)
+
+# Add file content type
+Page.create_content_type(FileContent)
+
+# Add contact form content type
+Page.create_content_type(ContactFormContent)
+
+# Add template content type
+Page.create_content_type(TemplateContent)
+
+# Add section content type
+Page.create_content_type(
+    SectionContent,
+    TYPE_CHOICES=(
+        ('a', _('a')),
+        ('b', _('b')),
+    )
+)
