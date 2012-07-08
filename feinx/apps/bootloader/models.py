@@ -98,6 +98,14 @@ Page.register_templates(
             ('left', _('Left Side'), 'inherited'),
         ),
     },
+    {
+        'key': '3rd application',
+        'title': _('3rd Application'),
+        'path': 'site_application.html',
+        'regions': (
+            ('application', _('Application area')),
+        ),
+    }
 )
 
 
